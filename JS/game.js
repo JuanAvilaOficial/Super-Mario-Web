@@ -5,6 +5,13 @@ const config = {
     height: 244,
     backgroundColor: '#049cd8',
     parent: 'game',
+    physics: {
+        default: 'arcade',
+        arcade:{
+            gravity: {y: 300},
+            debug: false
+        }
+    },
     scene: {
         preload,
         create,
@@ -35,15 +42,19 @@ function preload ()
 
 function create ()
 {
-    this.add.image(100, 50, 'cloud1')
-        .setOrigin(0 , 0)
-        .setScale(0.15)
+    this.add.image(100, 50, 'cloud1').setOrigin(0 , 0).setScale(0.15)
     
-    this.add.tileSprite(0, config.height - 32, config.width, 32, 'floorbricks')
-        .setOrigin(0, 0)
+        
+    this.floor =  this.physics.add.staticGroup()
+        
+    this.floor.create(0, config.height - 16, 'floorbricks').setOrigin(0, .5).refreshBody()
+        
+    this.floor.create(200, config.height - 16, 'floorbricks').setOrigin(0, .5).refreshBody()
+        
+    this.mario = this.physics.add.sprite(50, 100, 'mario').setOrigin(0, 1)
 
-    this.mario = this.add.sprite(50, 210,'mario').setOrigin(0, 1)
-    
+    this.physics.add.collider(this.mario, this.floor)
+
     this.anims.create
     ({
         key: 'mario-walk',
@@ -61,7 +72,7 @@ function create ()
 
     this.anims.create({
         key: 'mario-jump',
-        frames: [{key: 'mario', frame:0}]
+        frames: [{key: 'mario', frame:5}]
     })
 
     this.keys = this.input.keyboard.createCursorKeys()
@@ -72,18 +83,18 @@ function update ()
     if(this.keys.left.isDown)
     {
         this.mario.anims.play('mario-walk', true)
-        this.mario.x -= 2        
+        this.mario.x -= 1  
         this.mario.flipX = true
     }
     else if(this.keys.right.isDown)
     {
         this.mario.anims.play('mario-walk', true)
-        this.mario.x += 2
+        this.mario.x += 1
         this.mario.flipX = false
     }
-    else if(this.keys.up.isDown)
+    else if(this.keys.space.isDown)
     {
-        this.mario.y -= 5
+        this.mario.y -= 2
         this.mario.anims.play('mario-jump', true)
     }    
     else
