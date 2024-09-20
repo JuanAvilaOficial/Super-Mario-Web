@@ -38,6 +38,10 @@ function preload ()
         'floorbricks',
         'assets/scenery/overworld/floorbricks.png'
     )
+    this.load.image(
+        'supermushroom',
+        'assets/collectibles/super-mushroom.png'
+    )
     
     initSpriteSheet(this)
     initAudio(this)    
@@ -69,11 +73,16 @@ function create (){
         .setVelocityX(-50)
     this.enemy.anims.play('goomba-walk', true)
 
-    this.coins = this.physics.add.staticGroup() 
-    this.coins.create(150,150, 'coin').anims.play('coin-idle', true)
-    this.coins.create(300,150, 'coin').anims.play('coin-idle', true)
+    this.collectibes = this.physics.add.staticGroup() 
+    this.collectibes.create(150,150, 'coin').anims.play('coin-idle', true)
+    this.collectibes.create(300,150, 'coin').anims.play('coin-idle', true)
 
-    this.physics.add.overlap(this.mario, this.coins, collectCoin, null, this)
+    this.collectibes.create(200, config.height - 40, 'supermushroom').anims.play
+    ('supermushroom-idle', true)
+    
+    this.physics.add.overlap(this.mario, this.collectibes, collectItem, null, this)
+
+    this.physics.add.overlap(this.mario, this.collectibes, collectItem, null, this)
     
     this.physics.world.setBounds(0, 0, 2000, config.height)
     this.physics.add.collider(this.mario, this.floor)
@@ -88,10 +97,20 @@ function create (){
 }
 
 
-function collectCoin(mario, coin){
-    playAudio('coin-pickup', this, { volume: 0.2})
-    coin.destroy()
-    addToScore(100, coin, this)    
+function collectItem(mario, item){
+    const{ texture: { key }} = item    
+    item.destroy()
+    if(key == 'coin'){
+        playAudio('coin-pickup', this, { volume: 0.2})        
+        addToScore(100, item, this)  
+    }  
+    else if(key == 'supermushroom'){
+        this.physics.world.pause()
+        this.anims.pauseAll()
+
+        mario.isGrown = true
+        mario.anims.play('mario-grown-stop', true)
+    }
 }
 
 function addToScore(scoreToAdd, origin, game){
