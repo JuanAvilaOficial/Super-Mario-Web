@@ -14,6 +14,10 @@ const INIT_AUDIOS =[
     {
         key: 'coin-pickup',
         path: 'assets/sound/effects/coin.mp3'
+    },
+    {
+        key: 'powerUp',
+        path: 'assets/sound/effects/consume-powerup.mp3'
     }
 ]
 

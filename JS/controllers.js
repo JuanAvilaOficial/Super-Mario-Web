@@ -19,6 +19,7 @@ export function checkControllers ({mario, keys}) {
     const isUpKeyDown = keys.up.isDown
     
     if(mario.isDead) return
+    if(mario.isBlocked) return
 
     const marioAnimations = mario.isGrown ? MARIO_ANIMATIONS.grown:
     MARIO_ANIMATIONS.normal
@@ -26,13 +27,13 @@ export function checkControllers ({mario, keys}) {
     if(isLeftKeyDown)
     {
         isMarioTouchingFloor && mario.anims.play(marioAnimations.walk, true)
-        mario.setVelocityX(-100)
+        mario.x -= 2
         mario.flipX = true
     }
     else if(isRightKeyDown)
     {
         isMarioTouchingFloor && mario.anims.play(marioAnimations.walk, true)
-        mario.x += 1
+        mario.x += 2
         mario.flipX = false
     }
     else if(isMarioTouchingFloor){

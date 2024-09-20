@@ -79,7 +79,7 @@ function create (){
 
     this.collectibes.create(200, config.height - 40, 'supermushroom').anims.play
     ('supermushroom-idle', true)
-    
+
     this.physics.add.overlap(this.mario, this.collectibes, collectItem, null, this)
 
     this.physics.add.overlap(this.mario, this.collectibes, collectItem, null, this)
@@ -107,9 +107,28 @@ function collectItem(mario, item){
     else if(key == 'supermushroom'){
         this.physics.world.pause()
         this.anims.pauseAll()
+        
+        mario.isBlocked = true
+        playAudio('powerUp', this)
 
-        mario.isGrown = true
         mario.anims.play('mario-grown-stop', true)
+
+        let i = 0;
+        const interval = setInterval(() => {
+            mario.anims.play(i % 2 == 0) ? 'mario-grown-stop': 'mario-stop'
+            i++
+        },500)
+
+        setTimeout(()=>{
+            mario.setDisplaySize(18, 32)
+            mario.body.setSize(18, 32)
+            
+            mario.isGrown = true
+            mario.isBlocked = false
+            clearInterval(interval)
+            this.physics.world.resume()
+            this.anims.resumeAll()
+        },1000)
     }
 }
 

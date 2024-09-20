@@ -2,12 +2,7 @@ export const createAnimation = (game) =>{
     game.anims.create({
         key: 'mario-stop',
         frames: [{key: 'mario', frame:0}]
-    })
-
-    game.anims.create({
-        key: 'mario-grown-stop',
-        frames: [{key: 'mario-grown', frame:0}]
-    })
+    }) 
 
     game.anims.create
     ({
@@ -20,14 +15,40 @@ export const createAnimation = (game) =>{
     })
 
     game.anims.create({
+        key: 'mario-dead',
+        frames: [{key: 'mario', frame:4}]
+    })
+
+    game.anims.create({
         key: 'mario-jump',
         frames: [{key: 'mario', frame:5}]
     })
 
     game.anims.create({
-        key: 'mario-dead',
-        frames: [{key: 'mario', frame:4}]
+        key: 'mario-grown-stop',
+        frames: [{key: 'mario-grown', frame:0}]
     })
+    game.anims.create
+    ({
+        key: 'mario-grown-walk',
+        frames: game.anims.generateFrameNumbers(
+                'mario-grown', {start: 1, end: 3}
+            ),
+            frameRate: 12,
+            repeat: -1
+    })
+
+    game.anims.create({
+        key: 'mario-grown-down',
+        frames: [{key: 'mario-grown', frame:4}]
+    })
+
+    game.anims.create({
+        key: 'mario-grown-jump',
+        frames: [{key: 'mario-grown', frame:5}]
+    })
+
+    
 
     game.anims.create({
         key: 'goomba-walk',
