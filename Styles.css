@@ -1,3 +1,7 @@
+@font-face{
+    font-family: 'pixel';
+    src: url('assets/fonts/SuperMario.ttf');
+}
 body{
     display: grid;
     place-items: center;
